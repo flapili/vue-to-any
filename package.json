@@ -17,8 +17,8 @@
     "html2canvas",
     "pdf"
   ],
-  "main": "./dist/vue-to-any.js",
-  "module": "./dist/vue-to-any.umd.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
