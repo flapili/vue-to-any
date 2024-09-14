@@ -18,7 +18,7 @@
     "pdf"
   ],
   "main": "./dist/index.js",
-  "module": "./dist/index.umd.js",
+  "module": "./dist/index.umd.cjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
