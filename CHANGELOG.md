@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v0.3.0
+
+[compare changes](https://github.com/flapili/vue-to-any/compare/v0.2.0...v0.3.0)
+
+### 🩹 Fixes
+
+- Avoid using umd build ([9eb3761](https://github.com/flapili/vue-to-any/commit/9eb3761))
+- Passing props to final component ([4ccb8bc](https://github.com/flapili/vue-to-any/commit/4ccb8bc))
+
+### 💅 Refactors
+
+- Make options to be less opinionated ([0da5b6e](https://github.com/flapili/vue-to-any/commit/0da5b6e))
+- Hoist style to root of the render function ([feb47fb](https://github.com/flapili/vue-to-any/commit/feb47fb))
+
+### 🏡 Chore
+
+- **release:** V0.2.0 ([ae194d0](https://github.com/flapili/vue-to-any/commit/ae194d0))
+
+### ❤️ Contributors
+
+- Benoit Deveaux ([@flapili](http://github.com/flapili))
+
 ## v0.2.0
 
 [compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.4...v0.2.0)
