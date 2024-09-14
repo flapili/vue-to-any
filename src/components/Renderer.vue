@@ -17,11 +17,6 @@ interface RenderOptions {
    * @default 1
    */
   nextTicks: number
-
-  /**
-   * css to apply to the component (via style attribute)
-   */
-  style: CSSStyleDeclaration
 }
 
 interface Renderable<T> {
@@ -30,7 +25,7 @@ interface Renderable<T> {
   id: string
   instance: ComponentInstance<T> | null
   renderOptions: RenderOptions
-  finalStyle: CSSStyleDeclaration
+  style: Partial<CSSStyleDeclaration>
 }
 
 type ReturnTypes = 'b64png' | 'canvas' | 'html'
@@ -45,19 +40,51 @@ const localState = reactive<{ [k: string]: Renderable<Component> }>({})
 async function render<T extends Component, R extends ReturnTypes = 'b64png'>({
   component,
   props,
+  style,
   returnType,
   renderOptions,
   html2canvasOptions,
 }: {
+  /**
+   * The component to render
+   * @required
+   */
   component: T
+  /**
+   * The props to pass to the component
+   * @required
+   */
   props: ComponentProps<T>
+  /**
+   * The style to apply to the component
+   * @default { display: 'none', position: 'fixed' }
+   */
+  style?: Partial<CSSStyleDeclaration>
+  /**
+   * @default 'b64png'
+   * The return type of the function
+   * - 'b64png': Returns a base64 encoded png image
+   * - 'canvas': Returns a canvas element
+   * - 'html': Returns the html of the component
+   */
   returnType?: R
+  /**
+   * The options for rendering the component
+   * @default { nextTicks: 1 }
+   */
   renderOptions?: Partial<RenderOptions>
-  html2canvasOptions?: Html2canvasOption
+  /**
+   * The options for html2canvas
+   */
+  html2canvasOptions?: Partial<Html2canvasOption>
 }): Promise<ReturnType<R>> {
   const options = defu(renderOptions, {
     nextTicks: 1,
-    style: {} as CSSStyleDeclaration,
+  })
+
+  const finalStyle = defu(style, {
+    display: 'none',
+    position: 'fixed',
   })
 
   if (options.nextTicks < 1) {
@@ -65,20 +92,12 @@ async function render<T extends Component, R extends ReturnTypes = 'b64png'>({
   }
 
   if (returnType === undefined) {
-    returnType = 'B64Image' as R
+    returnType = 'b64png' as R
   }
 
-  if (!['B64Image', 'canvas'].includes(returnType)) {
-    throw new Error('returnType must be either B64Image or canvas')
+  if (!['b64png', 'canvas'].includes(returnType)) {
+    throw new Error('returnType must be either b64png or canvas')
   }
-
-  if (options.style.display === undefined) {
-    options.style.display = 'none'
-  }
-
-  options.style = defu(options.style, {
-    position: 'fixed',
-  })
 
   const id = uuidV4()
   const renderable = {
@@ -87,7 +106,7 @@ async function render<T extends Component, R extends ReturnTypes = 'b64png'>({
     id,
     instance: null,
     renderOptions: options,
-    finalStyle: options.style,
+    style: finalStyle,
   }
   localState[id] = renderable
 
@@ -113,7 +132,7 @@ async function render<T extends Component, R extends ReturnTypes = 'b64png'>({
   const canvas = await html2canvas(el, {
     ...html2canvasOptions,
     onclone(_document, element) {
-      element.style.display = renderOptions?.style?.display ?? 'block'
+      element.style.display = 'block'
     },
   })
   delete localState[id]
@@ -121,7 +140,10 @@ async function render<T extends Component, R extends ReturnTypes = 'b64png'>({
   if (returnType === 'canvas')
     return canvas as ReturnType<R>
 
-  return canvas.toDataURL('image/png') as ReturnType<R>
+  else if (returnType === 'b64png')
+    return canvas.toDataURL('image/png') as ReturnType<R>
+
+  throw new Error('Invalid returnType')
 }
 
 defineExpose({ render })
@@ -132,7 +154,7 @@ defineExpose({ render })
     <component
       v-bind="r.props"
       :is="r.component"
-      :style="r.finalStyle"
+      :style="r.style"
       @vue:mounted="(e: VNode) => r.instance = e.component!"
     />
   </template>

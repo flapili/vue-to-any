@@ -1,67 +1,70 @@
-import { defineComponent as w, reactive as x, openBlock as d, createElementBlock as _, Fragment as g, renderList as B, createBlock as b, resolveDynamicComponent as E, mergeProps as R, markRaw as T, nextTick as C } from "vue";
+import { defineComponent as x, reactive as _, openBlock as d, createElementBlock as b, Fragment as y, renderList as E, createBlock as R, resolveDynamicComponent as T, mergeProps as B, markRaw as C, nextTick as L } from "vue";
 import p from "defu";
-import I from "html2canvas";
-import { v4 as L } from "uuid";
-const A = /* @__PURE__ */ w({
+import M from "html2canvas";
+import { v4 as D } from "uuid";
+const H = /* @__PURE__ */ x({
   inheritAttrs: !1,
   __name: "Renderer",
-  setup(M, { expose: u }) {
-    const n = x({});
-    async function y({
-      component: l,
-      props: i,
+  setup(S, { expose: f }) {
+    const n = _({});
+    async function u({
+      component: c,
+      props: a,
+      style: t,
       returnType: e,
-      renderOptions: r,
-      html2canvasOptions: k
+      renderOptions: k,
+      html2canvasOptions: w
     }) {
       var m;
-      const t = p(r, {
-        nextTicks: 1,
-        style: {}
-      });
-      if (t.nextTicks < 1)
-        throw new Error("nextTicks must be greater than 0");
-      if (e === void 0 && (e = "B64Image"), !["B64Image", "canvas"].includes(e))
-        throw new Error("returnType must be either B64Image or canvas");
-      t.style.display === void 0 && (t.style.display = "none"), t.style = p(t.style, {
+      const r = p(k, {
+        nextTicks: 1
+      }), h = p(t, {
+        display: "none",
         position: "fixed"
       });
-      const o = L(), h = {
-        component: T(l),
-        props: i,
+      if (r.nextTicks < 1)
+        throw new Error("nextTicks must be greater than 0");
+      if (e === void 0 && (e = "b64png"), !["b64png", "canvas"].includes(e))
+        throw new Error("returnType must be either b64png or canvas");
+      const o = D(), v = {
+        component: C(c),
+        props: a,
         id: o,
         instance: null,
-        renderOptions: t,
-        finalStyle: t.style
+        renderOptions: r,
+        style: h
       };
-      n[o] = h;
-      for (let s = 0; s < t.nextTicks; s++)
-        await C();
+      n[o] = v;
+      for (let s = 0; s < r.nextTicks; s++)
+        await L();
       if (n[o].instance === null)
-        throw delete n[o], new Error(`Component not rendered after ${t.nextTicks} ticks`);
-      const a = (m = n[o].instance.vnode) == null ? void 0 : m.el;
-      if (!a)
+        throw delete n[o], new Error(`Component not rendered after ${r.nextTicks} ticks`);
+      const i = (m = n[o].instance.vnode) == null ? void 0 : m.el;
+      if (!i)
         throw delete n[o], new Error("Unable to get html from component");
       if (e === "html")
-        return a.outerHTML;
-      const c = await I(a, {
-        ...k,
-        onclone(s, v) {
-          var f;
-          v.style.display = ((f = r == null ? void 0 : r.style) == null ? void 0 : f.display) ?? "block";
+        return i.outerHTML;
+      const l = await M(i, {
+        ...w,
+        onclone(s, g) {
+          g.style.display = "block";
         }
       });
-      return delete n[o], e === "canvas" ? c : c.toDataURL("image/png");
+      if (delete n[o], e === "canvas")
+        return l;
+      if (e === "b64png")
+        return l.toDataURL("image/png");
+      throw new Error("Invalid returnType");
     }
-    return u({ render: y }), (l, i) => (d(!0), _(g, null, B(n, (e) => (d(), b(E(e.component), R({
-      key: e.id,
+    return f({ render: u }), (c, a) => (d(!0), b(y, null, E(n, (t) => (d(), R(T(t.component), B({
+      key: t.id,
       ref_for: !0
-    }, e.props, {
-      style: e.finalStyle,
-      onVnodeMounted: (r) => e.instance = r.component
+    }, t.props, {
+      style: t.style,
+      onVnodeMounted: (e) => t.instance = e.component
     }), null, 16, ["style", "onVnodeMounted"]))), 128));
   }
 });
 export {
-  A as Renderer
+  H as Renderer
 };
