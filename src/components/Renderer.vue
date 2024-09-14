@@ -6,6 +6,10 @@ import html2canvas, { type Options as Html2canvasOption } from 'html2canvas'
 import { v4 as uuidV4 } from 'uuid'
 import { markRaw, nextTick, reactive } from 'vue'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 interface RenderOptions {
   /**
    * How much ticks to wait before checking if the component was rendered
@@ -141,6 +145,11 @@ defineExpose({ render })
 
 <template>
   <template v-for="r in localState" :key="r.id">
-    <component :is="r.component" :style="r.finalStyle" @vue:mounted="(e: VNode) => r.instance = e.component!" />
+    <component
+      v-bind="r.props"
+      :is="r.component"
+      :style="r.finalStyle"
+      @vue:mounted="(e: VNode) => r.instance = e.component!"
+    />
   </template>
 </template>
