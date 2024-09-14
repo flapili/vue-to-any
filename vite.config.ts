@@ -24,10 +24,11 @@ export default defineConfig({
       ],
       output: {
         globals: {
-          vue: 'Vue',
-          defu: 'defu',
-          html2canvas: 'html2canvas',
-          uuid: 'uuid',
+          'vue': 'Vue',
+          'defu': 'defu',
+          'html2canvas': 'html2canvas',
+          'uuid': 'uuid',
+          'vue-component-type-helpers': 'vueComponentTypeHelpers',
         },
       },
     },
