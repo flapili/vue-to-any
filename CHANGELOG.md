@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.1...v0.1.2)
+
+### 🩹 Fixes
+
+- Change build config to avoid pushing dist into source 🙄 ([8dacb8e](https://github.com/flapili/vue-to-any/commit/8dacb8e))
+
+### ❤️ Contributors
+
+- Benoit Deveaux ([@flapili](http://github.com/flapili))
+
 ## v0.1.1
 
 [compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.0...v0.1.1)
