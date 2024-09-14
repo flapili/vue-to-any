@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.3.1
+
+[compare changes](https://github.com/flapili/vue-to-any/compare/v0.3.0...v0.3.1)
+
+### 💅 Refactors
+
+- Hoist style to root of the render function ([feb47fb](https://github.com/flapili/vue-to-any/commit/feb47fb))
+
+### 📖 Documentation
+
+- Update readme ([7b50a4b](https://github.com/flapili/vue-to-any/commit/7b50a4b))
+
+### 🏡 Chore
+
+- **release:** V0.3.0 ([ac8d00c](https://github.com/flapili/vue-to-any/commit/ac8d00c))
+
+### ❤️ Contributors
+
+- Benoit Deveaux ([@flapili](http://github.com/flapili))
+
 ## v0.3.0
 
 [compare changes](https://github.com/flapili/vue-to-any/compare/v0.2.0...v0.3.0)
