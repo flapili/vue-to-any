@@ -1,7 +1,7 @@
 {
   "name": "vue-to-any",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packageManager": "pnpm@9.10.0",
   "description": "Render Vue components to any format (pdf, image, canvas, or even as html string)",
   "author": "Deveaux Benoît <contact.flapili@gmail.com>",
