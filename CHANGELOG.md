@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- Remove d.ts declaration from source ... again 🙄 ([5778e0f](https://github.com/flapili/vue-to-any/commit/5778e0f))
+- Use correct export in package.json ([6c18e4a](https://github.com/flapili/vue-to-any/commit/6c18e4a))
+
+### ❤️ Contributors
+
+- Benoit Deveaux ([@flapili](http://github.com/flapili))
+
 ## v0.1.2
 
 [compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.1...v0.1.2)
