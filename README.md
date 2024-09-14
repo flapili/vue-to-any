@@ -43,37 +43,39 @@ const props = defineProps<{ msg: string }>()
 ```
 
 `App.vue`
-```html
 <script setup lang="ts">
-import { A, B } from '#components'
+import { MyAwesomeContent } from '#components'
 import { Renderer } from 'vue-to-any'
 
 const renderer = useTemplateRef('renderer')
+const imgSrc = ref('')
 
-async function addRender() {
-  const a = await renderer.value!.render({
-    component: A,
+async function doRender() {
+  const res = await renderer.value!.render({
+    component: MyAwesomeContent,
     props: {
       msg: 'Hello World',
+      imgs: Array.from({ length: 10 }, (_, i) => `https://picsum.photos/200/200?random=${i}`),
+    },
+    style: {
+      background: 'linear-gradient(90deg, red, yellow)',
+      width: '576px',
+    },
+    html2canvasOptions: {
+      useCORS: true,
     },
   })
-  console.log(a)
-
-  const b = await renderer.value!.render({
-    component: B,
-    props: {},
-    returnType: 'canvas',
-  })
-  console.log(b)
+  imgSrc.value = res
 }
 </script>
 
 <template>
   <div>
     <Renderer ref="renderer" />
-    <button @click="addRender">
+    <button @click="doRender">
       Render
     </button>
+    <img :src="imgSrc">
   </div>
 </template>
 ```
