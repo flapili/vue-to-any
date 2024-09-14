@@ -1,68 +1,67 @@
-import { defineComponent as v, reactive as w, openBlock as p, createElementBlock as _, Fragment as y, renderList as B, createBlock as b, resolveDynamicComponent as C, mergeProps as E, markRaw as R, nextTick as T } from "vue";
-import H from "defu";
+import { defineComponent as w, reactive as x, openBlock as d, createElementBlock as _, Fragment as g, renderList as B, createBlock as b, resolveDynamicComponent as E, mergeProps as R, markRaw as T, nextTick as C } from "vue";
+import p from "defu";
 import I from "html2canvas";
-import { v4 as S } from "uuid";
-const V = /* @__PURE__ */ v({
+import { v4 as L } from "uuid";
+const A = /* @__PURE__ */ w({
   inheritAttrs: !1,
   __name: "Renderer",
-  setup(W, { expose: h }) {
-    const n = w({});
-    async function u({
-      component: s,
-      props: c,
+  setup(M, { expose: u }) {
+    const n = x({});
+    async function y({
+      component: l,
+      props: i,
       returnType: e,
-      renderOptions: i,
-      html2canvasOptions: x
+      renderOptions: r,
+      html2canvasOptions: k
     }) {
-      var d;
-      const t = H(i, {
+      var m;
+      const t = p(r, {
         nextTicks: 1,
-        hideComponent: !0,
-        css: {},
-        position: "fixed",
-        maxWidth: "100vw",
-        maxHeight: "100vh"
+        style: {}
       });
       if (t.nextTicks < 1)
         throw new Error("nextTicks must be greater than 0");
       if (e === void 0 && (e = "B64Image"), !["B64Image", "canvas"].includes(e))
         throw new Error("returnType must be either B64Image or canvas");
-      const a = t.css;
-      t.hideComponent && (a.display = "none"), a.position = t.position, a.maxWidth = t.maxWidth, a.maxHeight = t.maxHeight;
-      const o = S(), k = {
-        component: R(s),
-        props: c,
+      t.style.display === void 0 && (t.style.display = "none"), t.style = p(t.style, {
+        position: "fixed"
+      });
+      const o = L(), h = {
+        component: T(l),
+        props: i,
         id: o,
         instance: null,
         renderOptions: t,
-        finalStyle: a
+        finalStyle: t.style
       };
-      n[o] = k;
-      for (let r = 0; r < t.nextTicks; r++)
-        await T();
+      n[o] = h;
+      for (let s = 0; s < t.nextTicks; s++)
+        await C();
       if (n[o].instance === null)
         throw delete n[o], new Error(`Component not rendered after ${t.nextTicks} ticks`);
-      const m = (d = n[o].instance.vnode) == null ? void 0 : d.el;
-      if (!m)
+      const a = (m = n[o].instance.vnode) == null ? void 0 : m.el;
+      if (!a)
         throw delete n[o], new Error("Unable to get html from component");
-      const l = await I(m, {
-        ...x,
-        onclone(r, g) {
+      if (e === "html")
+        return a.outerHTML;
+      const c = await I(a, {
+        ...k,
+        onclone(s, v) {
           var f;
-          g.style.display = ((f = i == null ? void 0 : i.css) == null ? void 0 : f.display) ?? "block";
+          v.style.display = ((f = r == null ? void 0 : r.style) == null ? void 0 : f.display) ?? "block";
         }
       });
-      return delete n[o], e === "canvas" ? l : l.toDataURL("image/png");
+      return delete n[o], e === "canvas" ? c : c.toDataURL("image/png");
     }
-    return h({ render: u }), (s, c) => (p(!0), _(y, null, B(n, (e) => (p(), b(C(e.component), E({
+    return u({ render: y }), (l, i) => (d(!0), _(g, null, B(n, (e) => (d(), b(E(e.component), R({
       key: e.id,
       ref_for: !0
     }, e.props, {
       style: e.finalStyle,
-      onVnodeMounted: (i) => e.instance = i.component
+      onVnodeMounted: (r) => e.instance = r.component
     }), null, 16, ["style", "onVnodeMounted"]))), 128));
   }
 });
 export {
-  V as Renderer
+  A as Renderer
 };

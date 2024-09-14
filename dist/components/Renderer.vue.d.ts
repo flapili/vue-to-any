@@ -9,37 +9,19 @@ interface RenderOptions {
      */
     nextTicks: number;
     /**
-     * hide rendered component (useful for debug purposes)
-     * @default true
+     * css to apply to the component (via style attribute)
      */
-    hideComponent: boolean;
-    /**
-     * width of the component to render
-     * @default "100vw"
-     */
-    maxWidth: CSSStyleDeclaration['maxWidth'];
-    /**
-     * height of the component to render
-     * @default "100vh"
-     */
-    maxHeight: CSSStyleDeclaration['maxHeight'];
-    /**
-     * Extra css to apply to the component (via style attribute)
-     */
-    css: CSSStyleDeclaration;
-    /**
-     * position of the component
-     * @default 'fixed'
-     */
-    position: 'relative' | 'absolute' | 'fixed';
+    style: CSSStyleDeclaration;
 }
-declare function render<T extends Component, R extends 'B64Image' | 'canvas' = 'B64Image'>({ component, props, returnType, renderOptions, html2canvasOptions, }: {
+type ReturnTypes = 'b64png' | 'canvas' | 'html';
+type ReturnType<T extends ReturnTypes> = T extends 'b64png' ? string : T extends 'canvas' ? HTMLCanvasElement : T extends 'html' ? string : never;
+declare function render<T extends Component, R extends ReturnTypes = 'b64png'>({ component, props, returnType, renderOptions, html2canvasOptions, }: {
     component: T;
     props: ComponentProps<T>;
     returnType?: R;
     renderOptions?: Partial<RenderOptions>;
     html2canvasOptions?: Html2canvasOption;
-}): Promise<R extends 'B64Image' ? string : HTMLCanvasElement>;
+}): Promise<ReturnType<R>>;
 declare const _default: import('vue').DefineComponent<{}, {
     render: typeof render;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

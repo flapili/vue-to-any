@@ -17,32 +17,11 @@ interface RenderOptions {
    * @default 1
    */
   nextTicks: number
-  /**
-   * hide rendered component (useful for debug purposes)
-   * @default true
-   */
-  hideComponent: boolean
-  /**
-   * width of the component to render
-   * @default "100vw"
-   */
-  maxWidth: CSSStyleDeclaration['maxWidth']
-  /**
-   * height of the component to render
-   * @default "100vh"
-   */
-  maxHeight: CSSStyleDeclaration['maxHeight']
 
   /**
-   * Extra css to apply to the component (via style attribute)
+   * css to apply to the component (via style attribute)
    */
-  css: CSSStyleDeclaration
-
-  /**
-   * position of the component
-   * @default 'fixed'
-   */
-  position: 'relative' | 'absolute' | 'fixed'
+  style: CSSStyleDeclaration
 }
 
 interface Renderable<T> {
@@ -54,9 +33,16 @@ interface Renderable<T> {
   finalStyle: CSSStyleDeclaration
 }
 
+type ReturnTypes = 'b64png' | 'canvas' | 'html'
+type ReturnType<T extends ReturnTypes> =
+  T extends 'b64png' ? string :
+    T extends 'canvas' ? HTMLCanvasElement :
+      T extends 'html' ? string :
+        never
+
 const localState = reactive<{ [k: string]: Renderable<Component> }>({})
 
-async function render<T extends Component, R extends 'B64Image' | 'canvas' = 'B64Image'>({
+async function render<T extends Component, R extends ReturnTypes = 'b64png'>({
   component,
   props,
   returnType,
@@ -68,14 +54,10 @@ async function render<T extends Component, R extends 'B64Image' | 'canvas' = 'B6
   returnType?: R
   renderOptions?: Partial<RenderOptions>
   html2canvasOptions?: Html2canvasOption
-}): Promise<R extends 'B64Image' ? string : HTMLCanvasElement> {
+}): Promise<ReturnType<R>> {
   const options = defu(renderOptions, {
     nextTicks: 1,
-    hideComponent: true,
-    css: {} as CSSStyleDeclaration,
-    position: 'fixed' as const,
-    maxWidth: '100vw' as const,
-    maxHeight: '100vh' as const,
+    style: {} as CSSStyleDeclaration,
   })
 
   if (options.nextTicks < 1) {
@@ -90,14 +72,13 @@ async function render<T extends Component, R extends 'B64Image' | 'canvas' = 'B6
     throw new Error('returnType must be either B64Image or canvas')
   }
 
-  const finalStyle = options.css
-
-  if (options.hideComponent) {
-    finalStyle.display = 'none'
+  if (options.style.display === undefined) {
+    options.style.display = 'none'
   }
-  finalStyle.position = options.position
-  finalStyle.maxWidth = options.maxWidth
-  finalStyle.maxHeight = options.maxHeight
+
+  options.style = defu(options.style, {
+    position: 'fixed',
+  })
 
   const id = uuidV4()
   const renderable = {
@@ -106,7 +87,7 @@ async function render<T extends Component, R extends 'B64Image' | 'canvas' = 'B6
     id,
     instance: null,
     renderOptions: options,
-    finalStyle,
+    finalStyle: options.style,
   }
   localState[id] = renderable
 
@@ -126,18 +107,21 @@ async function render<T extends Component, R extends 'B64Image' | 'canvas' = 'B6
     throw new Error('Unable to get html from component')
   }
 
+  if (returnType === 'html')
+    return el.outerHTML as ReturnType<R>
+
   const canvas = await html2canvas(el, {
     ...html2canvasOptions,
     onclone(_document, element) {
-      element.style.display = renderOptions?.css?.display ?? 'block'
+      element.style.display = renderOptions?.style?.display ?? 'block'
     },
   })
   delete localState[id]
 
-  if (returnType === 'canvas') {
-    return canvas as R extends 'B64Image' ? never : HTMLCanvasElement
-  }
-  return canvas.toDataURL('image/png') as R extends 'B64Image' ? string : never
+  if (returnType === 'canvas')
+    return canvas as ReturnType<R>
+
+  return canvas.toDataURL('image/png') as ReturnType<R>
 }
 
 defineExpose({ render })
