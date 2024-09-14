@@ -12,13 +12,12 @@
     "resolveJsonModule": true,
     "strict": true,
     "declaration": true,
-    "noEmit": false,
+    "noEmit": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true
   },
   "include": [
-    "index.ts",
-    "src/**/*.vue"
+    "src"
   ]
 }

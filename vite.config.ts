@@ -6,11 +6,11 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
   plugins: [
     vue(),
-    dts({ insertTypesEntry: true }),
+    dts(),
   ],
   build: {
     lib: {
-      entry: 'index.ts',
+      entry: 'src/index.ts',
       name: 'Vue-to-any',
       fileName: 'index',
     },

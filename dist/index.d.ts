@@ -1,2 +1,2 @@
-import { default as Renderer } from './src/components/Renderer.vue';
+import { default as Renderer } from './components/Renderer.vue';
 export { Renderer };
