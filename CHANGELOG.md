@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.1.4
+
+[compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.3...v0.1.4)
+
+### 🩹 Fixes
+
+- Use correct export in package.json ([6c18e4a](https://github.com/flapili/vue-to-any/commit/6c18e4a))
+- Finally fix export ([e5c28b8](https://github.com/flapili/vue-to-any/commit/e5c28b8))
+
+### 🏡 Chore
+
+- **release:** V0.1.3 ([b559687](https://github.com/flapili/vue-to-any/commit/b559687))
+
+### ❤️ Contributors
+
+- Benoit Deveaux ([@flapili](http://github.com/flapili))
+
 ## v0.1.3
 
 [compare changes](https://github.com/flapili/vue-to-any/compare/v0.1.2...v0.1.3)
